@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int AUDIO_PERMISSION_CODE = 1;
 
-    AudioDispatcher dispatcher;
+
     TarsosDSPAudioFormat tarsosDSPAudioFormat;
 
     File file;
@@ -66,15 +66,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        File sdCard = Environment.getExternalStorageDirectory();
-        file = new File(sdCard, filename);
-
         requestRecordAudioPermission();
 
-         /*
-        filePath = file.getAbsolutePath();
-        Log.e("MainActivity", "File save path:" + filePath); //File Save path : /storage/emulated/0/recorded.mp4
-        */
+        AudioDispatcher dispatcher =
+                AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
 
         tarsosDSPAudioFormat=new TarsosDSPAudioFormat(TarsosDSPAudioFormat.Encoding.PCM_SIGNED,
                 22050,
@@ -85,34 +80,9 @@ public class MainActivity extends AppCompatActivity {
                 ByteOrder.BIG_ENDIAN.equals(ByteOrder.nativeOrder()));
 
         textView = findViewById(R.id.textView);
-        textView.setText("");
         noteText = findViewById(R.id.noteText);
         buttonRecord = findViewById(R.id.button);
         buttonStop = findViewById(R.id.button2);
-        buttonRecord.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                    if(!isRecording){
-                        recordAudio();
-                        isRecording = true;
-                        Toast.makeText(MainActivity.this,"Recording", Toast.LENGTH_SHORT ).show();
-
-                    }else{
-                        stopRecording();
-                        isRecording = false;
-                        Toast.makeText(MainActivity.this,"Stopped Recording", Toast.LENGTH_SHORT ).show();
-                    }
-
-            }
-        });
-
-            buttonStop.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    stopRecording();
-                }
-            });
 
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
             @Override
@@ -173,52 +143,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void recordAudio(){
-        releaseDispatcher();
-        dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
-
-
-        try {
-            RandomAccessFile randomAccessFile = new RandomAccessFile(file,"rw");
-            AudioProcessor recordProcessor = new WriterProcessor(tarsosDSPAudioFormat, randomAccessFile);
-            dispatcher.addAudioProcessor(recordProcessor);
-
-            PitchDetectionHandler pitchDetectionHandler = (res, e) -> {
-                final float pitchInHz = res.getPitch();
-                runOnUiThread(() -> textView.setText(pitchInHz + ""));
-            };
-
-            AudioProcessor pitchProcessor = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pitchDetectionHandler);
-            dispatcher.addAudioProcessor(pitchProcessor);
-
-            Thread audioThread = new Thread(dispatcher, "Audio Thread");
-            audioThread.start();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void releaseDispatcher() {
-
-        if(dispatcher != null){
-
-            if(!dispatcher.isStopped())
-                dispatcher.stop();
-            dispatcher = null;
-        }
-
-    }
-
-    public void stopRecording(){
-        releaseDispatcher();
-    }
-
-    @Override
-    protected void onStop(){
-        super.onStop();
-        releaseDispatcher();
-    }
 
 
     @Override
@@ -242,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
     public void processPitch(float pitchInHz) {
 
@@ -276,8 +201,4 @@ public class MainActivity extends AppCompatActivity {
             noteText.setText("G");
         }
     }
-
-
-
-
 }
