@@ -25,6 +25,9 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.nio.ByteOrder;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -44,9 +47,17 @@ public class MainActivity extends AppCompatActivity {
 
         boolean isRecording = false;
 
-        Button buttonRequest = findViewById(R.id.button);
+        tarsosDSPAudioFormat=new TarsosDSPAudioFormat(TarsosDSPAudioFormat.Encoding.PCM_SIGNED,
+                22050,
+                2 * 8,
+                1,
+                2 * 1,
+                22050,
+                ByteOrder.BIG_ENDIAN.equals(ByteOrder.nativeOrder()));
+
+        Button buttonRecord = findViewById(R.id.button);
         Button buttonStop = findViewById(R.id.button2);
-        buttonRequest.setOnClickListener(new View.OnClickListener(){
+        buttonRecord.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
@@ -56,8 +67,22 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     requestRecordAudioPermission();
                 }
+                if(!isRecording){
+                    recordAudio();
+                    isRecording = true;
+                }else{
+                    stopRecording();
+                    isRecording = false;
+                }
             }
         });
+
+            buttonStop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    stopRecording();
+                }
+            });
     }
 
     private void requestRecordAudioPermission() {
@@ -98,20 +123,49 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void recordAudio(){
+        releaseDispatcher();
+        dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
 
+        try {
+            RandomAccessFile randomAccessFile = new RandomAccessFile(file,"rw");
+            AudioProcessor recordProcessor = new WriterProcessor(tarsosDSPAudioFormat, randomAccessFile);
+            dispatcher.addAudioProcessor(recordProcessor);
 
+            PitchDetectionHandler pitchDetectionHandler = new PitchDetectionHandler() {
+                @Override
+                public void handlePitch(PitchDetectionResult res, AudioEvent e){
+                    final float pitchInHz = res.getPitch();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pitchTextView.setText(pitchInHz + "");
+                        }
+                    });
+                }
+            };
 
+            AudioProcessor pitchProcessor = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pitchDetectionHandler);
+            dispatcher.addAudioProcessor(pitchProcessor);
 
+            Thread audioThread = new Thread(dispatcher, "Audio Thread");
+            audioThread.start();
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void releaseDispatcher() {
 
+        if(dispatcher != null){
 
+            if(!dispatcher.isStopped())
+                dispatcher.stop();
+            dispatcher = null;
+        }
 
-
-
-
-
-
+    }
 
 
     @Override
@@ -135,4 +189,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
