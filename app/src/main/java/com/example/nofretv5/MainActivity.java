@@ -1,6 +1,7 @@
 package com.example.nofretv5;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -50,8 +51,10 @@ public class MainActivity extends AppCompatActivity {
     File file;
 
     TextView textView;
+    TextView noteText;
     Button buttonRecord;
     Button buttonStop;
+
 
     boolean isRecording = false;
     String filename = "recorded_sound.wav";
@@ -65,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
         File sdCard = Environment.getExternalStorageDirectory();
         file = new File(sdCard, filename);
+
+        requestRecordAudioPermission();
 
          /*
         filePath = file.getAbsolutePath();
@@ -80,24 +85,25 @@ public class MainActivity extends AppCompatActivity {
                 ByteOrder.BIG_ENDIAN.equals(ByteOrder.nativeOrder()));
 
         textView = findViewById(R.id.textView);
+        textView.setText("");
+        noteText = findViewById(R.id.noteText);
         buttonRecord = findViewById(R.id.button);
         buttonStop = findViewById(R.id.button2);
         buttonRecord.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-                if(ContextCompat.checkSelfPermission(MainActivity.this,
-                        Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED){
                     if(!isRecording){
                         recordAudio();
                         isRecording = true;
+                        Toast.makeText(MainActivity.this,"Recording", Toast.LENGTH_SHORT ).show();
+
                     }else{
                         stopRecording();
                         isRecording = false;
+                        Toast.makeText(MainActivity.this,"Stopped Recording", Toast.LENGTH_SHORT ).show();
                     }
-                }else{
-                    requestRecordAudioPermission();
-                }
+
             }
         });
 
@@ -107,6 +113,26 @@ public class MainActivity extends AppCompatActivity {
                     stopRecording();
                 }
             });
+
+        PitchDetectionHandler pdh = new PitchDetectionHandler() {
+            @Override
+            public void handlePitch(PitchDetectionResult res, AudioEvent e){
+                final float pitchInHz = res.getPitch();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        processPitch(pitchInHz);
+                    }
+                });
+            }
+        };
+        AudioProcessor pitchProcessor = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
+        dispatcher.addAudioProcessor(pitchProcessor);
+
+        Thread audioThread = new Thread(dispatcher, "Audio Thread");
+        audioThread.start();
+
+
     }
 
     private void requestRecordAudioPermission() {
@@ -151,22 +177,15 @@ public class MainActivity extends AppCompatActivity {
         releaseDispatcher();
         dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
 
+
         try {
             RandomAccessFile randomAccessFile = new RandomAccessFile(file,"rw");
             AudioProcessor recordProcessor = new WriterProcessor(tarsosDSPAudioFormat, randomAccessFile);
             dispatcher.addAudioProcessor(recordProcessor);
 
-            PitchDetectionHandler pitchDetectionHandler = new PitchDetectionHandler() {
-                @Override
-                public void handlePitch(PitchDetectionResult res, AudioEvent e){
-                    final float pitchInHz = res.getPitch();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            textView.setText(pitchInHz + "");
-                        }
-                    });
-                }
+            PitchDetectionHandler pitchDetectionHandler = (res, e) -> {
+                final float pitchInHz = res.getPitch();
+                runOnUiThread(() -> textView.setText(pitchInHz + ""));
             };
 
             AudioProcessor pitchProcessor = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pitchDetectionHandler);
@@ -223,5 +242,42 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void processPitch(float pitchInHz) {
+
+        textView.setText("" + pitchInHz);
+
+        if(pitchInHz >= 110 && pitchInHz < 123.47) {
+            //A
+            noteText.setText("A");
+        }
+        else if(pitchInHz >= 123.47 && pitchInHz < 130.81) {
+            //B
+            noteText.setText("B");
+        }
+        else if(pitchInHz >= 130.81 && pitchInHz < 146.83) {
+            //C
+            noteText.setText("C");
+        }
+        else if(pitchInHz >= 146.83 && pitchInHz < 164.81) {
+            //D
+            noteText.setText("D");
+        }
+        else if(pitchInHz >= 164.81 && pitchInHz <= 174.61) {
+            //E
+            noteText.setText("E");
+        }
+        else if(pitchInHz >= 174.61 && pitchInHz < 185) {
+            //F
+            noteText.setText("F");
+        }
+        else if(pitchInHz >= 185 && pitchInHz < 196) {
+            //G
+            noteText.setText("G");
+        }
+    }
+
+
+
 
 }

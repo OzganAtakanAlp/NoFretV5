@@ -12,5 +12,6 @@
     <string name="button">Button</string>
     <string name="textview">TextView</string>
     <string name="todo">TODO</string>
+    <string name="textview">TextView</string>
 
 </resources>
