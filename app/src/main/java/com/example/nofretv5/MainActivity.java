@@ -16,16 +16,25 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import be.tarsos.dsp.AudioDispatcher;
+import be.tarsos.dsp.AudioEvent;
+import be.tarsos.dsp.AudioProcessor;
 import be.tarsos.dsp.io.TarsosDSPAudioFormat;
+import be.tarsos.dsp.io.android.AudioDispatcherFactory;
+import be.tarsos.dsp.pitch.PitchDetectionHandler;
+import be.tarsos.dsp.pitch.PitchDetectionResult;
+import be.tarsos.dsp.pitch.PitchProcessor;
+import be.tarsos.dsp.writer.WriterProcessor;
 
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.nio.ByteOrder;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,7 +42,12 @@ public class MainActivity extends AppCompatActivity {
 
     private int AUDIO_PERMISSION_CODE = 1;
 
+    AudioDispatcher dispatcher;
+    TarsosDSPAudioFormat tarsosDSPAudioFormat;
 
+    TextView textView;
+    Button buttonRecord = findViewById(R.id.button);
+    Button buttonStop = findViewById(R.id.button2);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        AudioDispatcher dispatcher;
-        TarsosDSPAudioFormat tarsosDSPAudioFormat;
+
 
         boolean isRecording = false;
 
@@ -55,8 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 22050,
                 ByteOrder.BIG_ENDIAN.equals(ByteOrder.nativeOrder()));
 
-        Button buttonRecord = findViewById(R.id.button);
-        Button buttonStop = findViewById(R.id.button2);
+
         buttonRecord.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -139,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            pitchTextView.setText(pitchInHz + "");
+                            textView.setText(pitchInHz + "");
                         }
                     });
                 }
