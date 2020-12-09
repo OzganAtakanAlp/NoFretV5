@@ -25,6 +25,7 @@ import be.tarsos.dsp.pitch.PitchDetectionResult;
 import be.tarsos.dsp.pitch.PitchProcessor;
 import be.tarsos.dsp.writer.WriterProcessor;
 
+import android.os.Environment;
 import android.view.View;
 
 import android.view.Menu;
@@ -33,6 +34,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteOrder;
@@ -45,9 +47,14 @@ public class MainActivity extends AppCompatActivity {
     AudioDispatcher dispatcher;
     TarsosDSPAudioFormat tarsosDSPAudioFormat;
 
+    File file;
+
     TextView textView;
-    Button buttonRecord = findViewById(R.id.button);
-    Button buttonStop = findViewById(R.id.button2);
+    Button buttonRecord;
+    Button buttonStop;
+
+    boolean isRecording = false;
+    String filename = "recorded_sound.wav";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +63,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        File sdCard = Environment.getExternalStorageDirectory();
+        file = new File(sdCard, filename);
 
-
-        boolean isRecording = false;
+         /*
+        filePath = file.getAbsolutePath();
+        Log.e("MainActivity", "File save path:" + filePath); //File Save path : /storage/emulated/0/recorded.mp4
+        */
 
         tarsosDSPAudioFormat=new TarsosDSPAudioFormat(TarsosDSPAudioFormat.Encoding.PCM_SIGNED,
                 22050,
@@ -68,23 +79,24 @@ public class MainActivity extends AppCompatActivity {
                 22050,
                 ByteOrder.BIG_ENDIAN.equals(ByteOrder.nativeOrder()));
 
-
+        textView = findViewById(R.id.textView);
+        buttonRecord = findViewById(R.id.button);
+        buttonStop = findViewById(R.id.button2);
         buttonRecord.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
                 if(ContextCompat.checkSelfPermission(MainActivity.this,
                         Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED){
-                    Toast.makeText(MainActivity.this, "You have already granted permission.", Toast.LENGTH_SHORT).show();
+                    if(!isRecording){
+                        recordAudio();
+                        isRecording = true;
+                    }else{
+                        stopRecording();
+                        isRecording = false;
+                    }
                 }else{
                     requestRecordAudioPermission();
-                }
-                if(!isRecording){
-                    recordAudio();
-                    isRecording = true;
-                }else{
-                    stopRecording();
-                    isRecording = false;
                 }
             }
         });
@@ -177,6 +189,16 @@ public class MainActivity extends AppCompatActivity {
             dispatcher = null;
         }
 
+    }
+
+    public void stopRecording(){
+        releaseDispatcher();
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        releaseDispatcher();
     }
 
 
