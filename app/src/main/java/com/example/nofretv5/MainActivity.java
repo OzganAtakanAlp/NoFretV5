@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
         fifthView = findViewById(R.id.fifthView);
         fifthNote = findViewById(R.id.fifthNote);
 
+
+
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
             @Override
             public void handlePitch(PitchDetectionResult res, AudioEvent e) {
@@ -171,71 +173,148 @@ public class MainActivity extends AppCompatActivity {
             if (pitchInHz >= 110 && pitchInHz < 123.47) {
                 //A
                 noteText.setText("A2");
-                thirdNote.setText("C3");
-                fifthNote.setText("E3");
+                thirdNote.setText("B2");
+                fifthNote.setText("C#3");
             } else if (pitchInHz >= 123.47 && pitchInHz < 130.81) {
                 //B
                 noteText.setText("B2");
-                thirdNote.setText("D3");
-                fifthNote.setText("F3");
-        }
-        if (pitchInHz >= 130.82 && pitchInHz <261.62) {
-            if (pitchInHz >= 130.81 && pitchInHz < 146.83) {
+                thirdNote.setText("C#3");
+                fifthNote.setText("D#3");
+            }else if (pitchInHz >= 130.81 && pitchInHz < 146.83) {
                 //C
                 noteText.setText("C3");
-                thirdNote.setText("E3");
-                fifthNote.setText("G3");
+                thirdNote.setText("D3");
+                fifthNote.setText("E3");
             } else if (pitchInHz >= 146.83 && pitchInHz < 164.81) {
                 //D
                 noteText.setText("D3");
-                thirdNote.setText("F3");
-                fifthNote.setText("A3");
+                thirdNote.setText("E3");
+                fifthNote.setText("F#3");
             } else if (pitchInHz >= 164.81 && pitchInHz <= 174.61) {
                 //E
                 noteText.setText("E3");
-                thirdNote.setText("G3");
-                fifthNote.setText("A4");
-            } else if (pitchInHz >= 174.61 && pitchInHz < 185) {
+                thirdNote.setText("F#3");
+                fifthNote.setText("G#3");
+            } else if (pitchInHz >= 174.61 && pitchInHz < 196) {
                 //F
                 noteText.setText("F3");
-                thirdNote.setText("A4");
-                fifthNote.setText("C4");
-            } else if (pitchInHz >= 185 && pitchInHz < 196) {
-                //G
-                noteText.setText("G3");
-                thirdNote.setText("A");
-                fifthNote.setText("C");
+                thirdNote.setText("G3");
+                fifthNote.setText("A3");
             } else if (pitchInHz >= 196 && pitchInHz < 220) {
                 //G
-                noteText.setText("A3");
-                thirdNote.setText("C4");
-                fifthNote.setText("E4");
+                noteText.setText("G3");
+                thirdNote.setText("A3");
+                fifthNote.setText("B3");
             } else if (pitchInHz >= 220 && pitchInHz < 246.94) {
-                //G
+                //A
+                noteText.setText("A3");
+                thirdNote.setText("B3");
+                fifthNote.setText("C#4");
+            } else if (pitchInHz >= 246.94 && pitchInHz < 261.63) {
+                //B
                 noteText.setText("B3");
-                thirdNote.setText("B4");
-                fifthNote.setText("D4");
+                thirdNote.setText("C#4");
+                fifthNote.setText("D#4");
             }
-        }
+
 
 
         if (pitchInHz >= 261.63 && pitchInHz < 523.25) {
             if (pitchInHz >= 261.63 && pitchInHz < 293.66) {
                 noteText.setText("C4");
+                noteText.setText("D4");
+                noteText.setText("E4");
             } else if (pitchInHz >= 293.66 && pitchInHz < 329.63) {
                 noteText.setText("D4");
+                noteText.setText("E4");
+                noteText.setText("F#4");
             } else if (pitchInHz >= 329.63 && pitchInHz < 349.23) {
                 noteText.setText("E4");
+                noteText.setText("F#4");
+                noteText.setText("G#4");
             } else if (pitchInHz >= 349.23 && pitchInHz < 392) {
                 noteText.setText("F4");
+                noteText.setText("G4");
+                noteText.setText("A4");
             } else if (pitchInHz >= 392 && pitchInHz < 440) {
                 noteText.setText("G4");
+                noteText.setText("A4");
+                noteText.setText("B4");
             } else if (pitchInHz >= 440.00 && pitchInHz < 493.88) {
                 noteText.setText("A4");
+                noteText.setText("B4");
+                noteText.setText("C#4");
             } else if (pitchInHz >= 493.88 && pitchInHz < 523.25) {
                 noteText.setText("B4");
+                noteText.setText("C#5");
+                noteText.setText("D#5");
             }
-
         }
+
+        if (pitchInHz >= 523.25 && pitchInHz < 1046.50) {
+            if (pitchInHz >= 523.25 && pitchInHz < 587.33) {
+                noteText.setText("C5");
+                noteText.setText("D5");
+                noteText.setText("E5");
+            } else if (pitchInHz >= 587.33 && pitchInHz < 659.25) {
+                noteText.setText("D5");
+                noteText.setText("E5");
+                noteText.setText("F#5");
+            } else if (pitchInHz >= 659.25 && pitchInHz < 698.46) {
+                noteText.setText("E5");
+                noteText.setText("F#5");
+                noteText.setText("G#5");
+            } else if (pitchInHz >= 698.46 && pitchInHz < 783.99) {
+                noteText.setText("F5");
+                noteText.setText("G5");
+                noteText.setText("A5");
+            } else if (pitchInHz >= 783.99 && pitchInHz < 880) {
+                noteText.setText("G5");
+                noteText.setText("A5");
+                noteText.setText("B5");
+            } else if (pitchInHz >= 880 && pitchInHz < 987.77) {
+                noteText.setText("A5");
+                noteText.setText("B5");
+                noteText.setText("C#6");
+            } else if (pitchInHz >= 987.77 && pitchInHz < 1046.50) {
+                noteText.setText("B5");
+                noteText.setText("C#6");
+                noteText.setText("D#6");
+            }
+        }
+
+        //not that it is likely possible for people to go this high but still serves them well to keep these here
+        if (pitchInHz >= 1046.50 && pitchInHz <2093 ) {
+            if (pitchInHz >= 1046.50 && pitchInHz < 1174.66) {
+                noteText.setText("C6");
+                noteText.setText("D6");
+                noteText.setText("E6");
+            } else if (pitchInHz >= 1174.66 && pitchInHz < 1318.51) {
+                noteText.setText("D6");
+                noteText.setText("E6");
+                noteText.setText("F#6");
+            } else if (pitchInHz >= 1318.51 && pitchInHz < 1396.91) {
+                noteText.setText("E6");
+                noteText.setText("F#6");
+                noteText.setText("G#6");
+            } else if (pitchInHz >= 1396.91 && pitchInHz < 1567.98) {
+                noteText.setText("F6");
+                noteText.setText("G6");
+                noteText.setText("A6");
+            } else if (pitchInHz >= 1567.98 && pitchInHz < 1760) {
+                noteText.setText("G6");
+                noteText.setText("A6");
+                noteText.setText("B6");
+            } else if (pitchInHz >= 1760 && pitchInHz < 1975.53) {
+                noteText.setText("A6");
+                noteText.setText("B6");
+                noteText.setText("C#6");
+            } else if (pitchInHz >= 1975.53 && pitchInHz < 2093) {
+                noteText.setText("B6");
+                noteText.setText("C#7");
+                noteText.setText("D#7");
+            }
+        }
+
     }
 }

@@ -29,8 +29,8 @@
 
         <TextView
             android:id="@+id/fifthNote"
-            android:layout_width="57dp"
-            android:layout_height="52dp"
+            android:layout_width="110dp"
+            android:layout_height="54dp"
             android:rotationY="-29"
             android:text="@string/fifthNote"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -42,8 +42,8 @@
 
         <TextView
             android:id="@+id/thirdNote"
-            android:layout_width="57dp"
-            android:layout_height="52dp"
+            android:layout_width="103dp"
+            android:layout_height="53dp"
             android:rotationY="29"
             android:text="@string/thirdNote"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -60,7 +60,6 @@
             android:text="@string/pitchTextView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/noteText"
             app:layout_constraintVertical_bias="0.0" />
@@ -101,7 +100,31 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.616" />
+            app:layout_constraintVertical_bias="0.639" />
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="139dp"
+            android:layout_height="82dp"
+            android:text="@string/titleTextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.147" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/textView3"
+            app:layout_constraintBottom_toTopOf="@+id/noteText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

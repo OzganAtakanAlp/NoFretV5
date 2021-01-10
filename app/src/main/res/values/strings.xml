@@ -9,12 +9,15 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="pitchTextView">TextView</string>
+    <string name="titleTextView">NoFret</string>
+    <string name="pitchTextView"></string>
     <string name="todo">TODO</string>
-    <string name="thirdNote">TextView</string>
-    <string name="fifthNote">TextView</string>
-    <string name="textview">TextView</string>
+    <string name="thirdNote">Go Ahead!</string>
+    <string name="fifthNote">Try it!</string>
+    <string name="textview">Sing!</string>
     <string name="FifthView">Fifth note:</string>
     <string name="ThirdView">Third Note:</string>
+    <string name="textView3">Your note:</string>
+
 
 </resources>
