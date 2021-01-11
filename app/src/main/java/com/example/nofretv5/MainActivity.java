@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         thirdNote.setText("" + pitchInHz);
         fifthNote.setText("" + pitchInHz);
 
-        /*if (pitchInHz >= 32.70 && pitchInHz < 65.41) {
+        if (pitchInHz >= 32.70 && pitchInHz < 65.41) {
             if (pitchInHz >= 32.70 && pitchInHz < 36.) {
                 noteText.setText("C1");
             } else if (pitchInHz >= 55 && pitchInHz < 61.74) {
@@ -167,10 +167,10 @@ public class MainActivity extends AppCompatActivity {
             } else if (pitchInHz >= 61.74 && pitchInHz < 110) {
                 noteText.setText("B1");
             }
-        }*/
-
-
-            if (pitchInHz >= 110 && pitchInHz < 123.47) {
+        }
+        if (pitchInHz >= 61.74 && pitchInHz < 110) {
+            noteText.setText("E1");
+        }else if (pitchInHz >= 110 && pitchInHz < 123.47) {
                 //A
                 noteText.setText("A2");
                 thirdNote.setText("B2");
@@ -180,37 +180,37 @@ public class MainActivity extends AppCompatActivity {
                 noteText.setText("B2");
                 thirdNote.setText("C#3");
                 fifthNote.setText("D#3");
-            }else if (pitchInHz >= 130.81 && pitchInHz < 146.83) {
+            }else if (pitchInHz >= 130.81 && pitchInHz < 140.83) {
                 //C
                 noteText.setText("C3");
                 thirdNote.setText("D3");
                 fifthNote.setText("E3");
-            } else if (pitchInHz >= 146.83 && pitchInHz < 164.81) {
+            } else if (pitchInHz >= 140.83 && pitchInHz < 161.81) {
                 //D
                 noteText.setText("D3");
                 thirdNote.setText("E3");
                 fifthNote.setText("F#3");
-            } else if (pitchInHz >= 164.81 && pitchInHz <= 174.61) {
+            } else if (pitchInHz >= 161.81 && pitchInHz <= 174.61) {
                 //E
                 noteText.setText("E3");
                 thirdNote.setText("F#3");
                 fifthNote.setText("G#3");
-            } else if (pitchInHz >= 174.61 && pitchInHz < 196) {
+            } else if (pitchInHz >= 174.61 && pitchInHz < 193) {
                 //F
                 noteText.setText("F3");
                 thirdNote.setText("G3");
                 fifthNote.setText("A3");
-            } else if (pitchInHz >= 196 && pitchInHz < 220) {
+            } else if (pitchInHz >= 193 && pitchInHz < 217) {
                 //G
                 noteText.setText("G3");
                 thirdNote.setText("A3");
                 fifthNote.setText("B3");
-            } else if (pitchInHz >= 220 && pitchInHz < 246.94) {
+            } else if (pitchInHz >= 217 && pitchInHz < 240.94) {
                 //A
                 noteText.setText("A3");
                 thirdNote.setText("B3");
                 fifthNote.setText("C#4");
-            } else if (pitchInHz >= 246.94 && pitchInHz < 261.63) {
+            } else if (pitchInHz >= 240.94 && pitchInHz < 261.63) {
                 //B
                 noteText.setText("B3");
                 thirdNote.setText("C#4");
@@ -222,32 +222,32 @@ public class MainActivity extends AppCompatActivity {
         if (pitchInHz >= 261.63 && pitchInHz < 523.25) {
             if (pitchInHz >= 261.63 && pitchInHz < 293.66) {
                 noteText.setText("C4");
+                thirdNote.setText("D4");
+                fifthNote.setText("E4");
+            } else if (pitchInHz >= 293.66 && pitchInHz < 320.63) {
                 noteText.setText("D4");
+                thirdNote.setText("E4");
+                fifthNote.setText("F#4");
+            } else if (pitchInHz >= 320.63 && pitchInHz < 349.23) {
                 noteText.setText("E4");
-            } else if (pitchInHz >= 293.66 && pitchInHz < 329.63) {
-                noteText.setText("D4");
-                noteText.setText("E4");
-                noteText.setText("F#4");
-            } else if (pitchInHz >= 329.63 && pitchInHz < 349.23) {
-                noteText.setText("E4");
-                noteText.setText("F#4");
-                noteText.setText("G#4");
+                thirdNote.setText("F#4");
+                fifthNote.setText("G#4");
             } else if (pitchInHz >= 349.23 && pitchInHz < 392) {
                 noteText.setText("F4");
-                noteText.setText("G4");
-                noteText.setText("A4");
+                thirdNote.setText("G4");
+                fifthNote.setText("A4");
             } else if (pitchInHz >= 392 && pitchInHz < 440) {
                 noteText.setText("G4");
-                noteText.setText("A4");
-                noteText.setText("B4");
+                thirdNote.setText("A4");
+                fifthNote.setText("B4");
             } else if (pitchInHz >= 440.00 && pitchInHz < 493.88) {
                 noteText.setText("A4");
-                noteText.setText("B4");
-                noteText.setText("C#4");
+                thirdNote.setText("B4");
+                fifthNote.setText("C#4");
             } else if (pitchInHz >= 493.88 && pitchInHz < 523.25) {
                 noteText.setText("B4");
-                noteText.setText("C#5");
-                noteText.setText("D#5");
+                thirdNote.setText("C#5");
+                fifthNote.setText("D#5");
             }
         }
 
