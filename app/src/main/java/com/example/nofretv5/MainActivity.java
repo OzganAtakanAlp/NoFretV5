@@ -168,14 +168,14 @@ public class MainActivity extends AppCompatActivity {
             noteText.setText("F1");
             thirdNote.setText("G1");
             fifthNote.setText("A1");
-        } else if (pitchInHz >= 73.42 && pitchInHz < 82.41) {
+        } else if (pitchInHz >= 73.42 && pitchInHz < 75) {
             noteText.setText("G1");
             thirdNote.setText("A1");
             fifthNote.setText("B1");
-        } else if (pitchInHz >= 87.31 && pitchInHz < 98) {
-            noteText.setText("A1");
-            thirdNote.setText("B1");
-            fifthNote.setText("C#1");
+        } else if (pitchInHz >=75&& pitchInHz < 98) {
+            noteText.setText("E1");
+            thirdNote.setText("F#1");
+            fifthNote.setText("G#1");
         } else if (pitchInHz >= 98 && pitchInHz < 110) {
             noteText.setText("B1");
             thirdNote.setText("C#2");
