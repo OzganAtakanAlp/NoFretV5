@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         fifthNote = findViewById(R.id.fifthNote);
 
 
-
         PitchDetectionHandler pdh = new PitchDetectionHandler() {
             @Override
             public void handlePitch(PitchDetectionResult res, AudioEvent e) {
@@ -151,26 +150,39 @@ public class MainActivity extends AppCompatActivity {
         thirdNote.setText("" + pitchInHz);
         fifthNote.setText("" + pitchInHz);
 
-        if (pitchInHz >= 32.70 && pitchInHz < 65.41) {
-            if (pitchInHz >= 32.70 && pitchInHz < 36.) {
-                noteText.setText("C1");
-            } else if (pitchInHz >= 55 && pitchInHz < 61.74) {
-                noteText.setText("D1");
-            } else if (pitchInHz >= 61.74 && pitchInHz < 110) {
-                noteText.setText("E1");
-            } else if (pitchInHz >= 61.74 && pitchInHz < 110) {
-                noteText.setText("F1");
-            } else if (pitchInHz >= 61.74 && pitchInHz < 110) {
-                noteText.setText("G1");
-            } else if (pitchInHz >= 61.74 && pitchInHz < 110) {
-                noteText.setText("A1");
-            } else if (pitchInHz >= 61.74 && pitchInHz < 110) {
-                noteText.setText("B1");
-            }
-        }
-        if (pitchInHz >= 61.74 && pitchInHz < 110) {
+        if (pitchInHz >= 27.5 && pitchInHz < 61.74) {
+
+        } else if (pitchInHz >= 32.70 && pitchInHz < 36.) {
+            noteText.setText("C1");
+            thirdNote.setText("D1");
+            fifthNote.setText("E1");
+        } else if (pitchInHz >= 55 && pitchInHz < 58) {
+            noteText.setText("D1");
+            thirdNote.setText("E1");
+            fifthNote.setText("F#1");
+        } else if (pitchInHz >= 58 && pitchInHz < 63) {
             noteText.setText("E1");
-        }else if (pitchInHz >= 110 && pitchInHz < 123.47) {
+            thirdNote.setText("F#1");
+            fifthNote.setText("G#1");
+        } else if (pitchInHz >= 63 && pitchInHz < 73.42) {
+            noteText.setText("F1");
+            thirdNote.setText("G1");
+            fifthNote.setText("A1");
+        } else if (pitchInHz >= 73.42 && pitchInHz < 82.41) {
+            noteText.setText("G1");
+            thirdNote.setText("A1");
+            fifthNote.setText("B1");
+        } else if (pitchInHz >= 87.31 && pitchInHz < 98) {
+            noteText.setText("A1");
+            thirdNote.setText("B1");
+            fifthNote.setText("C#1");
+        } else if (pitchInHz >= 98 && pitchInHz < 110) {
+            noteText.setText("B1");
+            thirdNote.setText("C#2");
+            fifthNote.setText("D#2");
+        }
+
+        if (pitchInHz >= 110 && pitchInHz < 123.47) {
                 //A
                 noteText.setText("A2");
                 thirdNote.setText("B2");
